@@ -3,7 +3,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import passport from 'passport';
 import './config/passport.js';
-import authRoutes from "./routes/auth.routes.js"
+import authRoutes from "./routes/auth.route.js"
+import carRoutes from "./routes/car.route.js"
+import userRoutes from "./routes/user.routes.js"
 
 
 dotenv.config();
@@ -14,6 +16,8 @@ app.use(express.json());
 app.use(passport.initialize());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/cars', carRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => res.send('API is running...'));
 

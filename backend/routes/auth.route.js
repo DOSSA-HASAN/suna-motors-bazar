@@ -14,7 +14,16 @@ router.get('/google/callback',
     passport.authenticate('google', { session: false, failureRedirect: '/login' }),
     (req, res) => {
         const token = generateToken(req.user._id);
-        res.redirect(`http://localhost:3000/login?token=${token}`);
+
+        // Set as a cookie instead of a URL param
+        res.cookie('token', token, {
+            httpOnly: true, // Prevents JS access
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Lax',
+            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+        });
+
+        res.redirect(`http://localhost:3000/dashboard`);
     }
 );
 

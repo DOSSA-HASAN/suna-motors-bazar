@@ -1,0 +1,30 @@
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import multer from 'multer';
+
+const isTest = process.env.NODE_ENV === 'test';
+
+if (!isTest) {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+}
+
+const storage = isTest
+    ? multer.memoryStorage()
+    : new CloudinaryStorage({
+        cloudinary,
+        params: {
+            folder: 'suna-motors-cars',
+            allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+        },
+    });
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+});
+
+export default upload;
