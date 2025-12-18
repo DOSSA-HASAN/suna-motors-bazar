@@ -20,19 +20,20 @@ const Login = () => {
   // Handle Standard Email/Password Login
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      const data = await loginAdmin(form);
-      setAuth(data.user, data.token);
-      toast.success("Welcome back, Admin");
-      navigate("/dashboard");
+      const data = await authService.login(email, password);
+
+      // Note: The 'data' object itself IS the user + the token
+      const { token, ...user } = data;
+
+      // This correctly separates the token from the user info
+      setAuth(user, token);
+
+      navigate("/listings");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Invalid credentials");
-    } finally {
-      setLoading(false);
+      toast.error(err.response?.data?.message || "Login failed");
     }
   };
-
   const handleGoogleLogin = () => {
     // Uses the environment variable
     window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
