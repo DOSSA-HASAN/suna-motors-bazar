@@ -126,10 +126,6 @@ export const deleteCar = async (req, res) => {
 };
 
 /**
- * @desc    Get all cars with filters
- * @route   GET /api/cars
- */
-/**
  * @desc    Get all cars with filtering, sorting & pagination
  * @route   GET /api/cars
  */

@@ -2,10 +2,11 @@ import express from 'express';
 import passport from 'passport';
 // Import generateToken here
 import { registerUser, loginUser, generateToken } from '../controllers/auth.controller.js';
+import { protect } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-router.post('/register', registerUser);
+router.post('/register', protect, registerUser);
 router.post('/login', passport.authenticate('local', { session: false }), loginUser);
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], session: false }));
