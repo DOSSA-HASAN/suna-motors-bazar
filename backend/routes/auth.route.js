@@ -7,7 +7,7 @@ import { protect } from '../middleware/auth.middleware.js';
 const router = express.Router();
 
 router.post('/register', protect, registerUser);
-router.post('/login', passport.authenticate('local', { session: false }), loginUser);
+router.post('/login', loginUser);
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], session: false }));
 

@@ -6,7 +6,8 @@ const carSchema = new mongoose.Schema(
         model: { type: String, required: true },
         year: { type: Number, required: true },
         price: { type: Number, required: true },
-        mileage: { type: Number, required: true },
+        mileage: { type: Number },
+        engineSize: { type: Number },
         fuelType: {
             type: String,
             enum: ['Petrol', 'Diesel', 'Electric', 'Hybrid'],

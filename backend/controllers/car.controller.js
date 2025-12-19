@@ -23,6 +23,7 @@ export const createCar = async (req, res) => {
             price: Number(req.body.price),
             year: Number(req.body.year),
             mileage: Number(req.body.mileage),
+            engineSize: Number(req.body.engineSize), // Add this line
             images,
             createdBy: req.user._id,
         };
@@ -83,6 +84,7 @@ export const updateCar = async (req, res) => {
         if (req.body.price) updatedData.price = Number(req.body.price);
         if (req.body.year) updatedData.year = Number(req.body.year);
         if (req.body.mileage) updatedData.mileage = Number(req.body.mileage);
+        if (req.body.engineSize) updatedData.engineSize = Number(req.body.engineSize);
 
         const updatedCar = await Car.findByIdAndUpdate(
             req.params.id,
@@ -142,6 +144,8 @@ export const getCars = async (req, res) => {
             maxYear,
             minMileage,
             maxMileage,
+            minCC,
+            maxCC,
             isAvailable,
             search,
             sortBy = 'createdAt',
@@ -177,6 +181,12 @@ export const getCars = async (req, res) => {
             filter.mileage = {};
             if (minMileage) filter.mileage.$gte = Number(minMileage);
             if (maxMileage) filter.mileage.$lte = Number(maxMileage);
+        }
+
+        if (minCC || maxCC) {
+            filter.engineSize = {};
+            if (minCC) filter.engineSize.$gte = Number(minCC);
+            if (maxCC) filter.engineSize.$lte = Number(maxCC);
         }
 
         // Text search (brand + model)
