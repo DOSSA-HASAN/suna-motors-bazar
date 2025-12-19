@@ -52,7 +52,7 @@ export default function Listings() {
             Inventory ({meta.total})
           </h2>
           <Link
-            to={"/add-listings"}
+            to={"/add-listing"}
             className="w-full sm:w-auto bg-[#f9f506] font-bold px-5 py-2.5 rounded-lg flex justify-center items-center gap-2 shadow-sm hover:scale-[1.02] transition-transform"
           >
             <span className="material-symbols-outlined text-xl">add</span> Add
