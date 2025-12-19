@@ -4,42 +4,51 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { userService } from "../api/userService";
 import { loginAdmin } from "../api/authService";
-import {
-  AuthInput,
-  BrandHeader,
-  GoogleButton,
-} from "../components/auth/AuthComponents";
+import { AuthInput, BrandHeader } from "../components/auth/AuthComponents";
 
 const Login = () => {
   const navigate = useNavigate();
   const setAuth = useAuthStore((s) => s.setAuth);
 
-  // View state: login | forgot | otp
   const [view, setView] = useState("login");
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
 
-  // Form States
   const [form, setForm] = useState({ email: "", password: "" });
   const [resetData, setResetData] = useState({ otp: "", newPassword: "" });
 
-  // CLEANUP: Reset fields when switching views to prevent "stuck" inputs
   useEffect(() => {
     if (view === "login") setResetData({ otp: "", newPassword: "" });
     if (view === "forgot") setForm({ ...form, password: "" });
   }, [view]);
 
+  // --- LOGIN HANDLER WITH ERROR LOGIC ---
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const data = await loginAdmin(form);
       const { token, ...user } = data;
+
       setAuth(user, token);
-      toast.success("Login successful!");
+      toast.success("Welcome back!");
       navigate("/listings");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Invalid credentials");
+      // 1. Check if the server is down
+      if (!err.response) {
+        toast.error("Server is unreachable. Check your connection.");
+      }
+      // 2. Handle specific 401/400 errors from backend
+      else if (err.response.status === 401 || err.response.status === 400) {
+        toast.error(err.response.data?.message || "Invalid email or password");
+        // Optional: Clear password field on failure so user can try again
+        setForm((prev) => ({ ...prev, password: "" }));
+      }
+      // 3. Generic fallback
+      else {
+        toast.error("An unexpected error occurred. Please try later.");
+      }
     } finally {
       setLoading(false);
     }
@@ -50,10 +59,12 @@ const Login = () => {
     setLoading(true);
     try {
       await userService.forgotPassword(form.email);
-      toast.success("6-digit code sent to your email!");
+      toast.success("Code sent! Please check your email.");
       setView("otp");
     } catch (err) {
-      toast.error(err.response?.data?.message || "User not found");
+      // Error handling for forgot password
+      const msg = err.response?.data?.message || "Could not process request";
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -63,7 +74,6 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // We pass the email + otp + newPassword
       await userService.resetPassword({
         email: form.email,
         otp: resetData.otp,
@@ -72,14 +82,13 @@ const Login = () => {
       toast.success("Password updated! You can now login.");
       setView("login");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Invalid or expired code");
+      // Error handling for OTP/Reset
+      const msg =
+        err.response?.data?.message || "Invalid code or expired session";
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleGoogleLogin = () => {
-    window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
   };
 
   return (
@@ -113,7 +122,7 @@ const Login = () => {
               id="email"
               type="email"
               placeholder="name@sunamotors.com"
-              value={form.email || ""} // Guard against undefined
+              value={form.email || ""}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
             />
@@ -122,7 +131,7 @@ const Login = () => {
               id="password"
               type={showPass ? "text" : "password"}
               placeholder="••••••••••••"
-              value={form.password || ""} // Guard against undefined
+              value={form.password || ""}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               icon={showPass ? "visibility_off" : "visibility"}
               onIconClick={() => setShowPass(!showPass)}
@@ -132,30 +141,47 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setView("forgot")}
-                className="text-[#135bec] text-sm font-medium hover:text-blue-700"
+                className="text-[#135bec] text-sm font-medium hover:text-blue-700 transition-colors"
               >
                 Forgot password?
               </button>
             </div>
             <button
               disabled={loading}
-              className={`h-12 bg-[#135bec] text-white font-bold rounded-lg transition-all ${
+              className={`h-12 bg-[#135bec] text-white font-bold rounded-lg transition-all flex items-center justify-center ${
                 loading
                   ? "opacity-70 cursor-not-allowed"
                   : "hover:bg-blue-700 shadow-md active:scale-95"
               }`}
               type="submit"
             >
-              {loading ? "Signing In..." : "Sign In"}
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Signing In...
+                </span>
+              ) : (
+                "Sign In"
+              )}
             </button>
-            <div className="relative flex py-2 items-center">
-              <div className="flex-grow border-t border-[#dbdfe6]"></div>
-              <span className="flex-shrink mx-4 text-[#616f89] text-xs font-medium uppercase">
-                OR
-              </span>
-              <div className="flex-grow border-t border-[#dbdfe6]"></div>
-            </div>
-            <GoogleButton onClick={handleGoogleLogin} />
           </form>
         )}
 
@@ -183,7 +209,7 @@ const Login = () => {
             <button
               type="button"
               onClick={() => setView("login")}
-              className="text-[#616f89] text-sm font-medium hover:text-black"
+              className="text-[#616f89] text-sm font-medium hover:text-black transition-colors"
             >
               Back to Login
             </button>
@@ -233,8 +259,8 @@ const Login = () => {
         )}
       </div>
 
-      <div className="mt-8 flex flex-col items-center gap-3">
-        <p className="text-[#616f89] text-sm">
+      <div className="mt-8">
+        <p className="text-[#616f89] text-sm italic">
           © 2025 Suna Motors Internal Systems
         </p>
       </div>
