@@ -8,12 +8,17 @@ import ViewListing from "./pages/ViewListing";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import EditListing from "./pages/admin/EditListing";
 import AddUser from "./pages/admin/AddUser";
+import Profile from "./pages/admin/Profile";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/login" element={<Login />} />
           <Route path="/add-user" element={<AddUser />} />
           <Route path="/google-callback" element={<GoogleCallback />} />
@@ -43,6 +48,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <EditListing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             }
           />

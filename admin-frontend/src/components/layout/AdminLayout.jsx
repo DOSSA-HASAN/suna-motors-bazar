@@ -30,7 +30,7 @@ export default function AdminLayout({ children }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <div className="relative hidden md:block">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">
                 search
@@ -45,7 +45,7 @@ export default function AdminLayout({ children }) {
               <span className="material-symbols-outlined">notifications</span>
               <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white"></span>
             </button>
-          </div>
+          </div> */}
         </header>
 
         {/* Content Area */}
