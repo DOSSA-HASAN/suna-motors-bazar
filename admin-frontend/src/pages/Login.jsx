@@ -1,26 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-// 1. CHANGED: Import the object instead of named functions
 import { userService } from "../api/userService";
+import { loginAdmin } from "../api/authService";
 import {
   AuthInput,
   BrandHeader,
   GoogleButton,
 } from "../components/auth/AuthComponents";
-import { loginAdmin } from "../api/authService";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const setAuth = useAuthStore((s) => s.setAuth);
+
+  // View state: login | forgot | otp
+  const [view, setView] = useState("login");
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+
+  // Form States
   const [form, setForm] = useState({ email: "", password: "" });
   const [resetData, setResetData] = useState({ otp: "", newPassword: "" });
-  const [showPass, setShowPass] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const [view, setView] = useState("login");
-
-  const setAuth = useAuthStore((s) => s.setAuth);
-  const navigate = useNavigate();
+  // CLEANUP: Reset fields when switching views to prevent "stuck" inputs
+  useEffect(() => {
+    if (view === "login") setResetData({ otp: "", newPassword: "" });
+    if (view === "forgot") setForm({ ...form, password: "" });
+  }, [view]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -38,12 +45,10 @@ const Login = () => {
     }
   };
 
-  // 2. CHANGED: Added userService. prefix
   const handleRequestOtp = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Accessing the function via the object
       await userService.forgotPassword(form.email);
       toast.success("6-digit code sent to your email!");
       setView("otp");
@@ -54,13 +59,16 @@ const Login = () => {
     }
   };
 
-  // 3. CHANGED: Added userService. prefix
   const handleResetSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Accessing the function via the object
-      await userService.resetPassword(resetData);
+      // We pass the email + otp + newPassword
+      await userService.resetPassword({
+        email: form.email,
+        otp: resetData.otp,
+        newPassword: resetData.newPassword,
+      });
       toast.success("Password updated! You can now login.");
       setView("login");
     } catch (err) {
@@ -79,7 +87,6 @@ const Login = () => {
       <div className="w-full max-w-[480px] bg-white rounded-xl shadow-lg border border-[#dbdfe6] overflow-hidden">
         <BrandHeader />
 
-        {/* Dynamic Header based on view */}
         <div className="px-8 py-4 text-center">
           <h3 className="text-[#111318] text-2xl font-bold tracking-tight">
             {view === "login" && "Welcome back"}
@@ -106,18 +113,20 @@ const Login = () => {
               id="email"
               type="email"
               placeholder="name@sunamotors.com"
-              value={form.email}
+              value={form.email || ""} // Guard against undefined
               onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
             />
             <AuthInput
               label="Password"
               id="password"
               type={showPass ? "text" : "password"}
               placeholder="••••••••••••"
-              value={form.password}
+              value={form.password || ""} // Guard against undefined
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               icon={showPass ? "visibility_off" : "visibility"}
               onIconClick={() => setShowPass(!showPass)}
+              required
             />
             <div className="flex justify-end -mt-3">
               <button
@@ -132,7 +141,7 @@ const Login = () => {
               disabled={loading}
               className={`h-12 bg-[#135bec] text-white font-bold rounded-lg transition-all ${
                 loading
-                  ? "opacity-70"
+                  ? "opacity-70 cursor-not-allowed"
                   : "hover:bg-blue-700 shadow-md active:scale-95"
               }`}
               type="submit"
@@ -150,7 +159,7 @@ const Login = () => {
           </form>
         )}
 
-        {/* --- FORGOT PASSWORD (REQUEST) VIEW --- */}
+        {/* --- FORGOT PASSWORD VIEW --- */}
         {view === "forgot" && (
           <form
             className="px-8 pb-8 flex flex-col gap-5"
@@ -160,12 +169,13 @@ const Login = () => {
               label="Email Address"
               type="email"
               placeholder="Enter your registered email"
-              value={form.email}
+              value={form.email || ""}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
             />
             <button
               disabled={loading}
-              className="h-12 bg-black text-white font-bold rounded-lg hover:bg-zinc-800 transition-all"
+              className="h-12 bg-black text-white font-bold rounded-lg hover:bg-zinc-800 transition-all disabled:opacity-50"
               type="submit"
             >
               {loading ? "Sending Code..." : "Send Reset Code"}
@@ -189,23 +199,25 @@ const Login = () => {
             <AuthInput
               label="6-Digit OTP"
               placeholder="000000"
-              value={resetData.otp}
+              value={resetData.otp || ""}
               onChange={(e) =>
                 setResetData({ ...resetData, otp: e.target.value })
               }
+              required
             />
             <AuthInput
               label="New Password"
               type="password"
               placeholder="••••••••••••"
-              value={resetData.newPassword}
+              value={resetData.newPassword || ""}
               onChange={(e) =>
                 setResetData({ ...resetData, newPassword: e.target.value })
               }
+              required
             />
             <button
               disabled={loading}
-              className="h-12 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
+              className="h-12 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 transition-all shadow-lg"
               type="submit"
             >
               {loading ? "Resetting..." : "Update Password"}
@@ -213,7 +225,7 @@ const Login = () => {
             <button
               type="button"
               onClick={() => setView("forgot")}
-              className="text-[#616f89] text-sm font-medium"
+              className="text-[#616f89] text-sm font-medium hover:text-black"
             >
               Didn't get a code? Resend
             </button>

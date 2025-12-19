@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import AdminLayout from "../../components/layout/AdminLayout";
-import axios from "axios"; // Or your authService
+import axiosInstance from "../../api/axiosInstance";
 
 const AddUser = () => {
   const navigate = useNavigate();
+
+  // State for loading and validation
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -17,13 +20,16 @@ const AddUser = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear red error highlight when user types
+    if (passwordError) setPasswordError(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic Validation
+    // 1. Client-side Validations
     if (formData.password !== formData.confirmPassword) {
+      setPasswordError(true);
       return toast.error("Passwords do not match");
     }
 
@@ -31,139 +37,164 @@ const AddUser = () => {
       return toast.error("Password must be at least 6 characters");
     }
 
+    // 2. Start Loading State
     setIsSubmitting(true);
+
     try {
-      // Adjust the URL to your actual API register endpoint
-      await axios.post("/api/auth/register", {
+      // PATH FIX: This now points to /api/auth/register via your axiosInstance
+      const response = await axiosInstance.post("/auth/register", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
       });
 
-      toast.success("New user registered successfully!");
-      navigate("/users"); // Redirect to a users list page if you have one
+      toast.success("New staff account created!");
+      navigate("/listings");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Registration failed");
+      // 3. Error Handling for 500 or 400 errors
+      const errorMessage =
+        err.response?.data?.message || "Server error occurred";
+      toast.error(errorMessage);
+      console.error("Submission Error:", err);
     } finally {
+      // 4. Stop Loading State (even if it fails)
       setIsSubmitting(false);
     }
   };
 
   return (
     <AdminLayout>
-      <div className="flex flex-col gap-6 max-w-2xl">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <h2 className="text-3xl font-bold text-slate-900">Add New User</h2>
+      <div className="max-w-2xl mx-auto py-4 lg:py-8 px-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        {/* Page Header */}
+        <div className="flex justify-between items-end mb-8">
+          <div>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+              ADD NEW USER
+            </h2>
+            <p className="text-slate-500 font-medium">
+              Create internal credentials for Suna Motors
+            </p>
+          </div>
           <button
             onClick={() => navigate(-1)}
-            className="text-slate-500 hover:text-slate-800 font-medium flex items-center gap-1"
+            className="flex items-center gap-1 text-slate-400 hover:text-slate-900 transition-colors font-bold text-sm"
           >
-            <span className="material-symbols-outlined text-sm">
+            <span className="material-symbols-outlined text-lg">
               arrow_back
-            </span>{" "}
-            Back
+            </span>
+            BACK
           </button>
         </div>
 
-        {/* Form Card */}
+        {/* Main Form Card */}
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm"
+          className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"
         >
-          <div className="space-y-5">
-            <h3 className="font-semibold text-slate-700 border-b pb-2 text-sm uppercase">
-              User Credentials
-            </h3>
-
-            {/* Name */}
+          <div className="p-8 space-y-6">
+            {/* Full Name Input */}
             <div>
-              <label className="text-xs font-semibold text-slate-500 uppercase">
+              <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">
                 Full Name
               </label>
               <input
-                name="name"
+                required
                 type="text"
+                name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="John Doe"
-                className="w-full mt-1 px-4 py-3 bg-[#f8f8f5] rounded-lg border-none focus:ring-2 focus:ring-[#f9f506]"
-                required
+                placeholder="Jane Doe"
+                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#f9f506] focus:border-transparent outline-none transition-all"
               />
             </div>
 
-            {/* Email */}
+            {/* Email Input */}
             <div>
-              <label className="text-xs font-semibold text-slate-500 uppercase">
+              <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">
                 Email Address
               </label>
               <input
-                name="email"
+                required
                 type="email"
+                name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="john@example.com"
-                className="w-full mt-1 px-4 py-3 bg-[#f8f8f5] rounded-lg border-none focus:ring-2 focus:ring-[#f9f506]"
-                required
+                placeholder="jane@sunamotors.com"
+                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#f9f506] focus:border-transparent outline-none transition-all"
               />
             </div>
 
             {/* Password Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-slate-500 uppercase">
+                <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">
                   Password
                 </label>
                 <input
-                  name="password"
+                  required
                   type="password"
+                  name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-3 bg-[#f8f8f5] rounded-lg border-none"
-                  required
+                  className={`w-full px-4 py-3.5 bg-slate-50 border rounded-xl outline-none transition-all ${
+                    passwordError
+                      ? "border-red-500 bg-red-50"
+                      : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#f9f506]"
+                  }`}
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-500 uppercase">
+                <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">
                   Confirm Password
                 </label>
                 <input
-                  name="confirmPassword"
+                  required
                   type="password"
+                  name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-3 bg-[#f8f8f5] rounded-lg border-none"
-                  required
+                  className={`w-full px-4 py-3.5 bg-slate-50 border rounded-xl outline-none transition-all ${
+                    passwordError
+                      ? "border-red-500 bg-red-50"
+                      : "border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#f9f506]"
+                  }`}
                 />
               </div>
             </div>
+            {passwordError && (
+              <p className="text-red-500 text-xs font-bold italic">
+                Passwords do not match.
+              </p>
+            )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="mt-10 pt-6 border-t border-slate-100 flex justify-end gap-3">
+          {/* Form Footer / Action Buttons */}
+          <div className="bg-slate-50/50 p-6 border-t border-slate-100 flex justify-end gap-3">
             <button
               type="button"
+              disabled={isSubmitting}
               onClick={() => navigate(-1)}
-              className="px-6 py-2.5 rounded-lg font-bold text-slate-600 hover:bg-slate-100 transition-colors"
+              className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors disabled:opacity-50"
             >
-              Cancel
+              CANCEL
             </button>
+
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`bg-[#f9f506] text-slate-900 px-10 py-2.5 rounded-lg font-extrabold shadow-sm transition-all flex items-center gap-2 ${
+              className={`min-w-[160px] flex items-center justify-center gap-2 bg-[#f9f506] text-slate-900 px-8 py-3 rounded-xl font-black text-sm shadow-sm transition-all ${
                 isSubmitting
-                  ? "opacity-70 cursor-not-allowed"
-                  : "hover:shadow-md active:scale-95"
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:shadow-md hover:-translate-y-0.5 active:scale-95"
               }`}
             >
               {isSubmitting ? (
                 <>
-                  <span className="animate-spin h-4 w-4 border-2 border-slate-900 border-t-transparent rounded-full"></span>
-                  CREATING...
+                  <div className="w-4 h-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
+                  <span>CREATING...</span>
                 </>
               ) : (
-                "CREATE USER"
+                "CREATE ACCOUNT"
               )}
             </button>
           </div>

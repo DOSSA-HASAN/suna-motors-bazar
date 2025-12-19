@@ -1,67 +1,76 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import GoogleCallback from "./pages/GoogleCallback";
-import AdminLayout from "./components/layout/AdminLayout";
 import Listings from "./pages/Listings";
 import AddListing from "./pages/AddListing";
-import ViewListing from "./pages/ViewListing";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import EditListing from "./pages/admin/EditListing";
-import AddUser from "./pages/admin/AddUser";
 import Profile from "./pages/admin/Profile";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
+import AddUser from "./pages/admin/AddUser";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/add-user" element={<AddUser />} />
-          <Route path="/google-callback" element={<GoogleCallback />} />
-          {/* Redirect root to login */}
-          <Route path="/" element={<Login />} />
-          {/* Route to view all cars */}
-          <Route
-            path="/listings"
-            element={
-              <ProtectedRoute>
-                <Listings />
-              </ProtectedRoute>
-            }
-          />
-          {/* Route to add a car */}
-          <Route
-            path="/add-listings"
-            element={
-              <ProtectedRoute>
-                <AddListing />
-              </ProtectedRoute>
-            }
-          />
-          {/* Route to update a car */}
-          <Route
-            path="/inventory/edit/:id"
-            element={
-              <ProtectedRoute>
-                <EditListing />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/google-callback" element={<GoogleCallback />} />
+        <Route path="/" element={<Navigate to="/listings" replace />} />
+
+        {/* NOTE: To see the Sidebar on these pages, 
+           we wrap the component inside the AdminLayout.
+        */}
+
+        {/* Car Listings */}
+        <Route
+          path="/listings"
+          element={
+            <ProtectedRoute>
+              <Listings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Add Listing - Updated path to match sidebar exactly */}
+        <Route
+          path="/add-listing"
+          element={
+            <ProtectedRoute>
+              <AddListing />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Edit Listing */}
+        <Route
+          path="/inventory/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditListing />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Profile */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/add-user"
+          element={
+            <ProtectedRoute>
+              <AddUser />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
