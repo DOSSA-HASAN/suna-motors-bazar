@@ -63,17 +63,16 @@ export default function Sidebar({ isOpen, toggleMobile }) {
         {/* Navigation Links */}
         <nav className="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-2">
           <SidebarItem
-            icon="garage_home"
-            label="Car Listings"
-            active={location.pathname === "/listings"}
-            onClick={() => goTo("/listings")}
-          />
-
-          <SidebarItem
             icon="add_box"
             label="Add New Car"
             active={location.pathname === "/add-listing"}
             onClick={() => goTo("/add-listing")}
+          />
+          <SidebarItem
+            icon="garage_home"
+            label="Car Listings"
+            active={location.pathname === "/listings"}
+            onClick={() => goTo("/listings")}
           />
 
           {/* Moved Profile here as a primary link */}
