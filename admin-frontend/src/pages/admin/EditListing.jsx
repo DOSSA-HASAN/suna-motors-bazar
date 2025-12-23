@@ -151,7 +151,7 @@ const EditListing = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 ml-1">
-                    BRAND
+                    MAKE
                   </label>
                   <input
                     name="brand"

@@ -96,7 +96,7 @@ export default function AddListing() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1">
                   <label className="text-[10px] font-black text-[#9e9d47] uppercase tracking-widest ml-1">
-                    Brand
+                    Make
                   </label>
                   <input
                     required
