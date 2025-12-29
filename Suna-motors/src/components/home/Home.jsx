@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 // import ranges from "../../assets/image.jpg";
 import toyotaLogo from "../../assets/Toyota.jpg";
-import suzuki from "../../assets/suzuki Logo.jpg";
-import Nissan from "../../assets/Nissan Logo.jpg";
+import suzuki from "../../assets/suzuki logo.jpg";
+import Nissan from "../../assets/Nissan logo.jpg";
 import jaguar from "../../assets/jaguar.jpg";
 import subishi from "../../assets/mitsubishi.jpg";
 import honda from "../../assets/Honda.jpg";
