@@ -15,9 +15,9 @@ import bmw from "../../assets/BMW.jpeg";
 import chevrolet from "../../assets/chevrolet.jpg";
 import VW from "../../assets/Vw.jpg";
 import Lexus from "../../assets/lexus.jpg";
-import mazda from "../../assets/MAZDA.JPG";
+import mazda from "../../assets/MAZDA.jpg";
 import ford from "../../assets/Ford.jpg";
-import volvo from "../../assets/VOLVO.JPG";
+import volvo from "../../assets/VOLVO.jpg";
 import CarListing from "../carlisting/CarListing";
 
 function Home() {
