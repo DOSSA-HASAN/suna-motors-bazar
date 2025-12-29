@@ -6,7 +6,7 @@ import toyotaLogo from "../../assets/Toyota.jpg";
 import suzuki from "../../assets/suzukilogo.jpg";
 import Nissan from "../../assets/Nissanlogo.jpg";
 import jaguar from "../../assets/jaguar.jpg";
-import subishi from "../../assets/mitsubishi.jpg";
+import subishi from "../../assets/Mitsubishi.jpg";
 import honda from "../../assets/Honda.jpg";
 import benz from "../../assets/benz.jpg";
 import audi from "../../assets/audi.jpg";
