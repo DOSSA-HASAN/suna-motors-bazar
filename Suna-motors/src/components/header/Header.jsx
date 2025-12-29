@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom"; // Import Link and useLocation
+import logo from "../../assets/logo.jpg";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Inventory', href: '/cars' },
-    { name: 'SUVs', href: '/suv' },
-    { name: 'About Us', href: '/about' },
-    { name: 'Contact', href: '/contact' },
+    { name: "Home", href: "/" },
+    { name: "Inventory", href: "/cars" },
+    { name: "About Us", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   // Get current path for active link highlighting
@@ -21,13 +21,25 @@ function Header() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="size-11 rounded-xl bg-red-600 flex items-center justify-center shadow-lg group-hover:shadow-2xl group-hover:scale-105 transition-all duration-300">
-              <span className="material-symbols-outlined text-3xl text-white font-bold">directions_car</span>
+          <Link to="/" className="flex items-center gap-4 group">
+            {/* Logo Container - Enlarged and optimized for visibility */}
+            <div className="size-14 rounded-xl overflow-hidden bg-white flex items-center justify-center shadow-md border border-gray-100 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
+              <img
+                src={logo}
+                alt="Suna Motors Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
-            <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-gray-900">
-              Suna Motors<span className="text-red-600"> Bazaar</span>
-            </h1>
+
+            {/* Brand Name */}
+            <div className="flex flex-col">
+              <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-gray-900 leading-none">
+                Suna Motors<span className="text-red-600"> Bazaar</span>
+              </h1>
+              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500 mt-1">
+                Premium Auto Dealership
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -38,14 +50,21 @@ function Header() {
                 to={link.href}
                 className={`
                   relative text-base font-semibold transition-all duration-300 pb-1
-                  ${currentPath === link.href
-                    ? 'text-red-600'
-                    : 'text-gray-700 hover:text-red-600'
+                  ${
+                    currentPath === link.href
+                      ? "text-red-600"
+                      : "text-gray-700 hover:text-red-600"
                   }
                 `}
               >
                 {link.name}
-                <span className={`absolute inset-x-0 bottom-0 h-0.5 bg-red-600 scale-x-0 transition-transform duration-300 origin-left ${currentPath === link.href ? 'scale-x-100' : 'group-hover:scale-x-100'}`} />
+                <span
+                  className={`absolute inset-x-0 bottom-0 h-0.5 bg-red-600 scale-x-0 transition-transform duration-300 origin-left ${
+                    currentPath === link.href
+                      ? "scale-x-100"
+                      : "group-hover:scale-x-100"
+                  }`}
+                />
               </Link>
             ))}
           </nav>
@@ -54,7 +73,9 @@ function Header() {
           <div className="flex items-center gap-4">
             {/* Search Bar */}
             <div className="hidden md:flex items-center bg-gray-100 rounded-full px-5 py-3 w-80 shadow-inner focus-within:shadow-lg focus-within:ring-2 focus-within:ring-red-600/30 transition-all duration-300">
-              <span className="material-symbols-outlined text-gray-500 text-xl">search</span>
+              <span className="material-symbols-outlined text-gray-500 text-xl">
+                search
+              </span>
               <input
                 type="text"
                 placeholder="Search cars, SUVs, brands..."
@@ -75,7 +96,7 @@ function Header() {
               className="lg:hidden flex items-center justify-center size-12 rounded-full bg-gray-100 hover:bg-red-600 hover:text-white transition-all duration-300 shadow-md"
             >
               <span className="material-symbols-outlined text-xl">
-                {mobileMenuOpen ? 'close' : 'menu'}
+                {mobileMenuOpen ? "close" : "menu"}
               </span>
             </button>
           </div>
@@ -85,9 +106,10 @@ function Header() {
         <div
           className={`
             lg:hidden overflow-hidden transition-all duration-500 ease-out
-            ${mobileMenuOpen
-              ? 'max-h-96 opacity-100 border-t border-gray-100 shadow-xl'
-              : 'max-h-0 opacity-0'
+            ${
+              mobileMenuOpen
+                ? "max-h-96 opacity-100 border-t border-gray-100 shadow-xl"
+                : "max-h-0 opacity-0"
             }
           `}
         >
@@ -99,9 +121,10 @@ function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`
                   px-6 py-4 text-lg font-medium rounded-lg transition-all duration-200
-                  ${currentPath === link.href
-                    ? 'text-red-600 bg-red-50'
-                    : 'text-gray-700 hover:text-red-600 hover:bg-gray-50'
+                  ${
+                    currentPath === link.href
+                      ? "text-red-600 bg-red-50"
+                      : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
                   }
                 `}
               >
