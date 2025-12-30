@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import ranges from "../../assets/image.jpg";
 import toyotaLogo from "../../assets/Toyota.jpg";
@@ -21,22 +21,55 @@ import volvo from "../../assets/VOLVO.jpg";
 import CarListing from "../carlisting/CarListing";
 
 function Home() {
+  const carData = {
+    Toyota: ["Prado", "Land Cruiser", "Harrier", "Vitz", "Hilux"],
+    "Mercedes-Benz": ["C-Class", "E-Class", "S-Class", "GLE", "G-Wagon"],
+    Subaru: ["Forester", "Impreza", "Outback", "XV"],
+    "Land Rover": ["Defender", "Range Rover Sport", "Discovery"],
+    Nissan: ["Patrol", "X-Trail", "Note"],
+    BMW: ["X5", "3 Series", "5 Series"],
+    Lexus: ["RX", "LX 570", "NX"],
+  };
+
+  const navigate = useNavigate();
+
+  // 2. State for the dropdowns
+  const [selectedMake, setSelectedMake] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+
+  // 3. Logic: If the Make changes, reset the Model to empty
+  useEffect(() => {
+    setSelectedModel("");
+  }, [selectedMake]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const params = new URLSearchParams();
+
+    // Get values directly from state or form
+    if (selectedMake) params.append("make", selectedMake);
+    if (selectedModel) params.append("model", selectedModel);
+
+    const budget = formData.get("budget");
+    if (budget === "Under KSh 3M") {
+      params.append("priceMax", "3000000");
+    } else if (budget === "KSh 3M - 6M") {
+      params.append("priceMin", "3000000");
+      params.append("priceMax", "6000000");
+    } else if (budget === "Over KSh 6M") {
+      params.append("priceMin", "6000000");
+    }
+
+    // Redirect to your inventory page
+    navigate(`/cars?${params.toString()}`);
+  };
+
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Array of 6 high-quality premium SUV images: Toyota Prado TX & Mercedes-AMG GLC 63 (V8 models)
   // All dynamic/driving shots, no Range Rover Velar
-  const slides = [
-    "https://pictures.dealer.com/n/nhbedfordlr/0201/baee115a0aaf1bb31f765fb508a138f4x.jpg?impolicy=resize&w=414", // 2024 Range Rover Sport
-    "https://vehicle-images.dealerinspire.com/f79a-18003960/thumbnails/large/SAL1Z9F98RA407195/8992aba6ae2010c1469e60432cb21f02.jpg", // 2024 Range Rover Sport SV Edition One
-    "https://s3.amazonaws.com/photos.autoexact.com/photos/SAL119F4X/SAL119F4XRA4082321_l.jpg", // 2024 Range Rover Sport Plug-in Hybrid
-    "https://www.thedetroitbureau.com/wp-content/uploads/2023/08/2024-Toyota-Land-Cruiser-silver-debut--1024x683.jpeg", // 2024 Toyota Land Cruiser silver
-    "https://www.netcarshow.com/Toyota-Land_Cruiser_US-Version-2024-wallpaper.jpg", // 2024 Toyota Land Cruiser wallpaper
-    "https://static0.topspeedimages.com/wordpress/wp-content/uploads/2024/08/2024_toyota_land_cruiser_002-1-jpg.jpg?q=49&fit=contain&w=750&h=422&dpr=2", // 2024 Toyota Land Cruiser dynamic
-    "https://static0.carbuzzimages.com/wordpress/wp-content/uploads/2025/06/2024-mercedes-benz-g-class-stronger-than-diamond-edition-5.jpg?q=49&fit=contain&w=750&h=422&dpr=2", // 2024 Mercedes G-Class special edition
-    "https://static0.carbuzzimages.com/wordpress/wp-content/uploads/2024/03/517339-4.jpg?w=1200&h=675&fit=crop", // 2024 Mercedes G-Class AMG
-    "https://global.toyota/pages/news/images/2024/04/18/1330/20240418_01_t_w610.jpg", // 2024 Toyota Land Cruiser "250" / Prado TX
-    "https://di-uploads-pod10.dealerinspire.com/landroverbrooklyn/uploads/2024/10/S-Defender",
-  ];
+  const slides = ["./car1.png", "./car2.png", "./car3.png", "./car4.png"];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -138,7 +171,7 @@ function Home() {
         {/* Advanced Search Bar - Now Functional */}
         <section className="max-w-[1280px] mx-auto px-6 md:px-10 -mt-20 relative z-20 mb-20">
           <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
-            <form
+            {/* <form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -208,7 +241,7 @@ function Home() {
                 defaultValue=""
               >
                 <option value="" disabled>
-                  Any Budget
+                  Price
                 </option>
                 <option>Under KSh 3M</option>
                 <option>KSh 3M - 6M</option>
@@ -224,6 +257,80 @@ function Home() {
                 </span>
                 Find My Car
               </button>
+            </form> */}
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-4 gap-4"
+            >
+              {/* Make Selection */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-gray-400 ml-2">
+                  Brand
+                </label>
+                <select
+                  name="make"
+                  value={selectedMake}
+                  onChange={(e) => setSelectedMake(e.target.value)}
+                  className="h-14 px-4 bg-gray-100 rounded-xl font-semibold outline-none focus:ring-2 focus:ring-blue-500 transition-all appearance-none"
+                >
+                  <option value="">All Makes</option>
+                  {Object.keys(carData).map((make) => (
+                    <option key={make} value={make}>
+                      {make}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Model Selection */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-gray-400 ml-2">
+                  Model
+                </label>
+                <select
+                  name="model"
+                  value={selectedModel}
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  disabled={!selectedMake}
+                  className="h-14 px-4 bg-gray-100 rounded-xl font-semibold outline-none focus:ring-2 focus:ring-blue-500 transition-all disabled:opacity-50 appearance-none"
+                >
+                  <option value="">
+                    {selectedMake ? "All Models" : "Select Make First"}
+                  </option>
+                  {selectedMake &&
+                    carData[selectedMake].map((model) => (
+                      <option key={model} value={model}>
+                        {model}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              {/* Budget Selection */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-gray-400 ml-2">
+                  Budget
+                </label>
+                <select
+                  name="budget"
+                  className="h-14 px-4 bg-gray-100 rounded-xl font-semibold outline-none focus:ring-2 focus:ring-blue-500 transition-all appearance-none"
+                >
+                  <option value="">Any Price</option>
+                  <option>Under KSh 3M</option>
+                  <option>KSh 3M - 6M</option>
+                  <option>Over KSh 6M</option>
+                </select>
+              </div>
+
+              {/* Search Button */}
+              <div className="flex items-end">
+                <button
+                  type="submit"
+                  className="h-14 w-full bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200"
+                >
+                  Search Cars
+                </button>
+              </div>
             </form>
           </div>
         </section>
