@@ -22,13 +22,64 @@ import CarListing from "../carlisting/CarListing";
 
 function Home() {
   const carData = {
-    Toyota: ["Prado", "Land Cruiser", "Harrier", "Vitz", "Hilux"],
-    "Mercedes-Benz": ["C-Class", "E-Class", "S-Class", "GLE", "G-Wagon"],
-    Subaru: ["Forester", "Impreza", "Outback", "XV"],
-    "Land Rover": ["Defender", "Range Rover Sport", "Discovery"],
-    Nissan: ["Patrol", "X-Trail", "Note"],
-    BMW: ["X5", "3 Series", "5 Series"],
-    Lexus: ["RX", "LX 570", "NX"],
+    Toyota: [
+      "Prado",
+      "Land Cruiser",
+      "Harrier",
+      "Vitz",
+      "Hilux",
+      "Noah",
+      "Voxy",
+      "Premio",
+      "Allion",
+      "Rav4",
+      "Axio",
+      "Fielder",
+      "Rush",
+      "Alphard",
+      "Fortuner",
+    ],
+    "Mercedes-Benz": [
+      "C-Class",
+      "E-Class",
+      "S-Class",
+      "GLE",
+      "G-Wagon",
+      "GLC",
+      "GLA",
+      "CLA",
+      "Vito",
+    ],
+    Subaru: ["Forester", "Impreza", "Outback", "XV", "Legacy", "Levorg", "WRX"],
+    Mazda: ["CX-5", "Demio", "Axela", "Atenza", "CX-3", "CX-8", "BT-50"],
+    Nissan: [
+      "Patrol",
+      "X-Trail",
+      "Note",
+      "Juke",
+      "Serena",
+      "Navara",
+      "Teana",
+      "Sylphy",
+      "Tiida",
+    ],
+    "Land Rover": [
+      "Defender",
+      "Range Rover Sport",
+      "Discovery",
+      "Range Rover Vogue",
+      "Evoque",
+      "Velar",
+    ],
+    BMW: ["X5", "X3", "X1", "3 Series", "5 Series", "7 Series"],
+    Lexus: ["RX", "LX 570", "NX", "IS", "ES", "GX"],
+    Volkswagen: ["Golf", "Tiguan", "Touareg", "Passat", "Polo", "Amarok"],
+    Audi: ["A4", "A6", "Q5", "Q7", "Q3"],
+    Hyundai: ["Tucson", "Santa Fe", "Elantra", "Creta"],
+    Honda: ["CR-V", "Civic", "Fit", "Accord", "Vezel"],
+    Mitsubishi: ["Pajero", "Outlander", "L200", "RVR"],
+    Isuzu: ["D-Max", "MU-X", "NPR", "FRR"],
+    Suzuki: ["Swift", "Jimny", "Vitara", "Ertiga"],
   };
 
   const navigate = useNavigate();
@@ -265,7 +316,7 @@ function Home() {
               {/* Make Selection */}
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-gray-400 ml-2">
-                  Brand
+                  Make
                 </label>
                 <select
                   name="make"
@@ -309,13 +360,13 @@ function Home() {
               {/* Budget Selection */}
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-gray-400 ml-2">
-                  Budget
+                  Price
                 </label>
                 <select
                   name="budget"
                   className="h-14 px-4 bg-gray-100 rounded-xl font-semibold outline-none focus:ring-2 focus:ring-blue-500 transition-all appearance-none"
                 >
-                  <option value="">Any Price</option>
+                  <option value="">Prices</option>
                   <option>Under KSh 3M</option>
                   <option>KSh 3M - 6M</option>
                   <option>Over KSh 6M</option>
@@ -651,7 +702,7 @@ function Home() {
               <div className="p-8 bg-gray-50 rounded-3xl shadow-lg">
                 <p className="text-lg italic mb-6">
                   "Sold my car in 3 days for more than expected. Highly
-                  recommend Suna Motors!"
+                  recommend Suna Motor!"
                 </p>
                 <p className="font-bold">– David O., Eldoret</p>
               </div>
@@ -729,7 +780,7 @@ function Home() {
             </h2>
             <p className="text-xl text-gray-600 mb-16 max-w-3xl mx-auto">
               Proven numbers that show why drivers and sellers choose Suna
-              Motors Bazaar
+              Motor Bazaar
             </p>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
               <div className="group">
@@ -782,7 +833,7 @@ function Home() {
         <section className="bg-gray-900 text-white py-20">
           <div className="max-w-[1280px] mx-auto px-6 md:px-10 text-center">
             <h2 className="text-4xl md:text-5xl font-black mb-6">
-              Why Thousands Trust Suna Motors Bazaar
+              Why Thousands Trust Suna Motor Bazaar
             </h2>
             <p className="text-xl text-gray-400 mb-16 max-w-3xl mx-auto">
               We make buying your next car simple, safe, and exciting.

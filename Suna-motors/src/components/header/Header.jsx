@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom"; // Import Link and useLocation
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Added useNavigate
 import logo from "../../assets/logo.jpg";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search input
+
+  const location = useLocation();
+  const navigate = useNavigate(); // Hook for programmatic navigation
+  const currentPath = location.pathname;
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -12,9 +17,15 @@ function Header() {
     { name: "Contact", href: "/contact" },
   ];
 
-  // Get current path for active link highlighting
-  const location = useLocation();
-  const currentPath = location.pathname;
+  // Handle Search Submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Redirect to inventory page with the search term as a query parameter
+      navigate(`/cars?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery(""); // Clear search after submission
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-md">
@@ -22,7 +33,6 @@ function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-4 group">
-            {/* Logo Container - Enlarged and optimized for visibility */}
             <div className="size-14 rounded-xl overflow-hidden bg-white flex items-center justify-center shadow-md border border-gray-100 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
               <img
                 src={logo}
@@ -31,10 +41,9 @@ function Header() {
               />
             </div>
 
-            {/* Brand Name */}
             <div className="flex flex-col">
               <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-gray-900 leading-none">
-                Suna Motors<span className="text-red-600"> Bazaar</span>
+                Suna Motor<span className="text-red-600"> Bazaar</span>
               </h1>
               <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500 mt-1">
                 Premium Auto Dealership
@@ -71,17 +80,27 @@ function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-4">
-            {/* Search Bar */}
-            <div className="hidden md:flex items-center bg-gray-100 rounded-full px-5 py-3 w-80 shadow-inner focus-within:shadow-lg focus-within:ring-2 focus-within:ring-red-600/30 transition-all duration-300">
-              <span className="material-symbols-outlined text-gray-500 text-xl">
-                search
-              </span>
+            {/* Search Bar - Wrapped in a form to handle 'Enter' key */}
+            <form
+              onSubmit={handleSearch}
+              className="hidden md:flex items-center bg-gray-100 rounded-full px-5 py-3 w-80 shadow-inner focus-within:shadow-lg focus-within:ring-2 focus-within:ring-red-600/30 transition-all duration-300"
+            >
+              <button
+                type="submit"
+                className="flex items-center justify-center"
+              >
+                <span className="material-symbols-outlined text-gray-500 text-xl hover:text-red-600 transition-colors">
+                  search
+                </span>
+              </button>
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search cars, SUVs, brands..."
                 className="bg-transparent ml-3 text-base w-full focus:outline-none placeholder:text-gray-500"
               />
-            </div>
+            </form>
 
             {/* Favorites */}
             <button className="flex items-center justify-center size-12 rounded-full bg-gray-100 hover:bg-red-600 hover:text-white hover:scale-110 transition-all duration-300 shadow-md group">
@@ -114,6 +133,25 @@ function Header() {
           `}
         >
           <nav className="flex flex-col bg-white py-6 px-6 space-y-1">
+            {/* Mobile Search Bar (Added for better UX) */}
+            <form
+              onSubmit={handleSearch}
+              className="flex md:hidden items-center bg-gray-100 rounded-lg px-4 py-3 mb-4"
+            >
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search..."
+                className="bg-transparent text-base w-full focus:outline-none"
+              />
+              <button type="submit">
+                <span className="material-symbols-outlined text-gray-500">
+                  search
+                </span>
+              </button>
+            </form>
+
             {navLinks.map((link) => (
               <Link
                 key={link.name}

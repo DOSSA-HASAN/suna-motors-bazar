@@ -57,7 +57,7 @@ function Footer() {
 
                 {/* Company Name */}
                 <h3 className="text-4xl md:text-5xl font-black text-white text-center md:text-left">
-                  Suna Motors
+                  Suna Motor
                   <span className="text-red-600"> & Property Bazaar</span>
                 </h3>
               </div>
@@ -119,7 +119,7 @@ function Footer() {
         {/* Bottom Bar */}
         <div className="mt-20 pt-12 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-6 text-base">
           <p className="text-gray-500">
-            © {currentYear} Suna Motors & Property Bazaar. All rights reserved.
+            © {currentYear} Suna Motor & Property Bazaar. All rights reserved.
           </p>
           <p className="text-gray-500 flex items-center gap-3">
             Crafted with

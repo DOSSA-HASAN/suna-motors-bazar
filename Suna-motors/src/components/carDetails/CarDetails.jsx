@@ -9,6 +9,16 @@ function CarDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const shareUrl = window.location.href;
+  console.log(car);
+  const shareMessage = `Check out ${car?.brand} ${car?.model} i found on suna motor bazaar`;
+  const shareToWhatsapp = () => {
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
+      shareMessage
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   // State to track which image is currently enlarged
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
@@ -210,6 +220,13 @@ function CarDetails() {
                     <span className="material-symbols-outlined">chat</span>{" "}
                     WhatsApp Expert
                   </a>
+                  <button
+                    className="w-full py-4 bg-[#25D366] text-white font-bold rounded-2xl hover:bg-[#20bd5a] transition flex items-center justify-center gap-2"
+                    onClick={() => shareToWhatsapp()}
+                  >
+                    Share on Whatsapp
+                  </button>
+
                   <a
                     href="tel:0792669697"
                     className="w-full py-4 bg-red-600 text-white font-bold rounded-2xl hover:bg-red-700 transition flex items-center justify-center gap-2"

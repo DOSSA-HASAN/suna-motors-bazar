@@ -127,9 +127,9 @@ function AboutUs() {
               Our Vision
             </h3>
             <p className="text-lg text-gray-600 leading-relaxed">
-              To be Kenya's most trusted and innovative automotive marketplace —
-              empowering every driver with safe, reliable, and affordable
-              premium vehicles.
+              To be Southern Nyanza's most trusted and innovative automotive
+              marketplace — empowering every driver with safe, reliable, and
+              affordable premium vehicles.
             </p>
           </div>
           <div className="bg-white rounded-3xl p-12 shadow-xl">
