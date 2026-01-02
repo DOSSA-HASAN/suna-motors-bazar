@@ -18,6 +18,13 @@ function CarListing() {
 
         // 1. Map frontend search params to Backend query keys
         const queryParams = new URLSearchParams();
+
+        // ADDED: Handle the global search from the navbar
+        if (searchParams.get("search")) {
+          queryParams.append("search", searchParams.get("search"));
+        }
+
+        // Existing filters
         if (searchParams.get("make"))
           queryParams.append("brand", searchParams.get("make"));
         if (searchParams.get("model"))
@@ -70,6 +77,24 @@ function CarListing() {
     <div className="bg-gray-50 text-gray-900 min-h-screen">
       <main className="py-12">
         <div className="max-w-[1440px] mx-auto px-6 md:px-10">
+          {/* SEARCH FEEDBACK: Tell the user what they searched for */}
+          {searchParams.get("search") && (
+            <div className="mb-8 flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+              <p className="text-gray-600">
+                Showing results for:{" "}
+                <span className="font-bold text-red-600">
+                  "{searchParams.get("search")}"
+                </span>
+              </p>
+              <button
+                onClick={() => setSearchParams({})}
+                className="text-sm text-gray-400 hover:text-red-600 underline"
+              >
+                Clear Search
+              </button>
+            </div>
+          )}
+
           {/* Listings Grid */}
           <div id="listings" className="mb-16">
             {loading ? (
@@ -124,7 +149,7 @@ function CarListing() {
 
                     <div className="p-6">
                       <h3 className="text-2xl font-black mb-2 truncate">
-                        {car.year} {car.brand} {car.model}
+                        {car.brand} {car.model} {car.year}
                       </h3>
                       <p className="text-3xl font-black text-red-600 mb-4">
                         KES {Number(car.price).toLocaleString()}
@@ -168,7 +193,6 @@ function CarListing() {
           {!loading && pagination.pages > 1 && (
             <div className="flex flex-col items-center gap-6 py-12 border-t border-gray-200">
               <div className="flex items-center gap-3">
-                {/* Previous Button */}
                 <button
                   disabled={pagination.page <= 1}
                   onClick={() => handlePageChange(pagination.page - 1)}
@@ -179,7 +203,6 @@ function CarListing() {
                   </span>
                 </button>
 
-                {/* Page Numbers */}
                 <div className="flex gap-2">
                   {[...Array(pagination.pages)].map((_, index) => {
                     const pageNum = index + 1;
@@ -199,7 +222,6 @@ function CarListing() {
                   })}
                 </div>
 
-                {/* Next Button */}
                 <button
                   disabled={pagination.page >= pagination.pages}
                   onClick={() => handlePageChange(pagination.page + 1)}

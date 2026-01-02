@@ -8,19 +8,29 @@ function CarDetails() {
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  const shareUrl = window.location.href;
-  console.log(car);
-  const shareMessage = `Check out ${car?.brand} ${car?.model} i found on suna motor bazaar`;
+  // --- COPY LINK LOGIC ---
+  const [copied, setCopied] = useState(false);
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy link", err);
+    }
+  };
+
+  // --- WHATSAPP SHARE LOGIC ---
   const shareToWhatsapp = () => {
+    if (!car) return;
+    const shareMessage = `Check out this ${car.brand} ${car.model} (${car.year}) I found on Suna Motor Bazaar: ${window.location.href}`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
       shareMessage
     )}`;
     window.open(whatsappUrl, "_blank");
   };
-
-  // State to track which image is currently enlarged
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -67,9 +77,7 @@ function CarDetails() {
           <div className="grid lg:grid-cols-[1fr_420px] gap-10">
             {/* Left: Gallery & Details */}
             <div className="space-y-6">
-              {/* --- IMAGE GALLERY SECTION --- */}
               <div className="space-y-4">
-                {/* 1. Main Featured Image */}
                 <div className="rounded-3xl overflow-hidden shadow-2xl bg-black aspect-[16/9] relative">
                   <img
                     src={
@@ -79,8 +87,6 @@ function CarDetails() {
                     alt={`${car.brand} main view`}
                     className="w-full h-full object-contain transition-all duration-500"
                   />
-
-                  {/* Navigation Arrows for Main Image */}
                   {images.length > 1 && (
                     <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 hover:opacity-100 transition-opacity">
                       <button
@@ -111,7 +117,6 @@ function CarDetails() {
                   )}
                 </div>
 
-                {/* 2. Thumbnail Strip */}
                 {images.length > 1 && (
                   <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
                     {images.map((img, index) => (
@@ -134,9 +139,7 @@ function CarDetails() {
                   </div>
                 )}
               </div>
-              {/* --- END GALLERY SECTION --- */}
 
-              {/* Vehicle Title & Info Card */}
               <div className="bg-white rounded-3xl p-8 shadow-xl">
                 <div className="flex justify-between items-start mb-6">
                   <div>
@@ -155,7 +158,6 @@ function CarDetails() {
                   </div>
                 </div>
 
-                {/* Technical Specs Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-y border-gray-100 mb-8">
                   <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-red-600">
@@ -212,7 +214,7 @@ function CarDetails() {
                 </h4>
                 <div className="space-y-4">
                   <a
-                    href={`https://wa.me/254792669697?text=Hi, I'm interested in the ${car.year} ${car.brand} ${car.model} (KES ${car.price})`}
+                    href={`https://wa.me/254728166487?text=Hi, I'm interested in the ${car.year} ${car.brand} ${car.model} (KES ${car.price})`}
                     target="_blank"
                     rel="noreferrer"
                     className="w-full py-4 bg-[#25D366] text-white font-bold rounded-2xl hover:bg-[#20bd5a] transition flex items-center justify-center gap-2"
@@ -220,11 +222,29 @@ function CarDetails() {
                     <span className="material-symbols-outlined">chat</span>{" "}
                     WhatsApp Expert
                   </a>
+
+                  {/* WhatsApp Share Button */}
                   <button
-                    className="w-full py-4 bg-[#25D366] text-white font-bold rounded-2xl hover:bg-[#20bd5a] transition flex items-center justify-center gap-2"
-                    onClick={() => shareToWhatsapp()}
+                    onClick={shareToWhatsapp}
+                    className="w-full py-4 border-2 border-[#25D366] text-[#25D366] font-bold rounded-2xl hover:bg-[#25D366] hover:text-white transition flex items-center justify-center gap-2"
                   >
-                    Share on Whatsapp
+                    <span className="material-symbols-outlined">share</span>{" "}
+                    Share on WhatsApp
+                  </button>
+
+                  {/* Copy Link Button */}
+                  <button
+                    onClick={handleCopyLink}
+                    className={`w-full py-4 font-bold rounded-2xl transition flex items-center justify-center gap-2 border-2 ${
+                      copied
+                        ? "bg-green-600 border-green-600 text-white"
+                        : "border-gray-200 text-gray-700 hover:border-red-600 hover:text-red-600"
+                    }`}
+                  >
+                    <span className="material-symbols-outlined">
+                      {copied ? "check_circle" : "link"}
+                    </span>
+                    {copied ? "Link Copied!" : "Copy Page Link"}
                   </button>
 
                   <a
@@ -234,6 +254,7 @@ function CarDetails() {
                     <span className="material-symbols-outlined">call</span> Call
                     Dealer
                   </a>
+
                   <hr className="my-6" />
                   <div className="bg-gray-50 p-4 rounded-2xl">
                     <p className="text-sm font-bold mb-2 flex items-center gap-2">

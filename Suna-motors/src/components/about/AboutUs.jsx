@@ -16,8 +16,8 @@ function AboutUs() {
             <span className="text-red-600">Forward</span>
           </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-4xl mx-auto leading-relaxed">
-            Kenya's premier marketplace for premium, verified imported and local
-            vehicles. Quality assured, transparently priced, delivered
+            Southern Nyanza's premier marketplace for premium, verified imported
+            and local vehicles. Quality assured, transparently priced, delivered
             nationwide.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -102,18 +102,18 @@ function AboutUs() {
             <div className="grid grid-cols-1 gap-8">
               <div className="rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=31347278038192712"
+                  src="/car1.png"
                   alt="Our extensive open-air bazaar filled with premium vehicles"
                   className="w-full h-full object-cover hover:scale-105 transition duration-700"
                 />
               </div>
-              <div className="rounded-3xl overflow-hidden shadow-2xl">
+              {/* <div className="rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=727081296115694"
                   alt="Rows of verified cars in our spacious outdoor lot"
                   className="w-full h-full object-cover hover:scale-105 transition duration-700"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -378,7 +378,7 @@ function AboutUs() {
                 Call Now
               </a>
               <a
-                href="https://wa.me/254792669697"
+                href="https://wa.me/254728166487"
                 className="px-10 py-5 bg-[#25D366] text-white font-bold text-xl rounded-full hover:bg-[#20bd5a] hover:scale-105 transition-all shadow-2xl flex items-center gap-3"
               >
                 <span className="material-symbols-outlined text-2xl">chat</span>

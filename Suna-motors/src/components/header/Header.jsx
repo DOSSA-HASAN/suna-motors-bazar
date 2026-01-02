@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Added useNavigate
-import logo from "../../assets/logo.jpg";
+import logo from "/logo.jpg";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -33,7 +33,7 @@ function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-4 group">
-            <div className="size-14 rounded-xl overflow-hidden bg-white flex items-center justify-center shadow-md border border-gray-100 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
+            <div className="size-20 rounded-xl overflow-hidden bg-white flex items-center justify-center shadow-md border border-gray-100 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
               <img
                 src={logo}
                 alt="Suna Motors Logo"
@@ -46,7 +46,7 @@ function Header() {
                 Suna Motor<span className="text-red-600"> Bazaar</span>
               </h1>
               <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500 mt-1">
-                Premium Auto Dealership
+                Cars For Everyone
               </span>
             </div>
           </Link>

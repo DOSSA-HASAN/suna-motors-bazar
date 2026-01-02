@@ -405,7 +405,7 @@ function Home() {
         <section className="max-w-[1440px] mx-auto px-6 md:px-10 py-20 bg-gradient-to-b from-gray-50 to-white">
           <div className="text-center mb-16">
             <h2 className="text-5xl md:text-6xl font-black mb-6">
-              Popular Brands in nyanza
+              Popular Brands in Southern Nyanza
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Explore premium vehicles from the most trusted and loved brands on
@@ -779,8 +779,8 @@ function Home() {
               Trusted by Thousands Across Kenya
             </h2>
             <p className="text-xl text-gray-600 mb-16 max-w-3xl mx-auto">
-              Proven numbers that show why drivers and sellers choose Suna
-              Motor Bazaar
+              Proven numbers that show why drivers and sellers choose Suna Motor
+              Bazaar
             </p>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
               <div className="group">
