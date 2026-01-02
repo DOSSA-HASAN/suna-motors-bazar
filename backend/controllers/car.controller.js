@@ -11,6 +11,10 @@ export const createCar = async (req, res) => {
             return res.status(401).json({ message: 'Not authorized' });
         }
 
+        if (req.files && req.files.length > 7) {
+            return res.status(400).json({ message: 'Maximum 7 images allowed' });
+        }
+
         const images = req.files
             ? req.files.map(file => ({
                 url: file.path,
@@ -54,12 +58,18 @@ export const updateCar = async (req, res) => {
                 ? req.body.removedImages
                 : [req.body.removedImages];
 
-            // Delete from Cloudinary
             await Promise.all(
-                removedImages.map(publicId =>
-                    cloudinary.uploader.destroy(publicId)
-                )
+                removedImages.map(publicId => cloudinary.uploader.destroy(publicId))
             );
+        }
+
+        if (remainingImages.length + newImages.length > 7) {
+            // If too many, we should ideally delete the newly uploaded images from Cloudinary 
+            // to avoid "orphaned" files since the DB update will fail.
+            if (newImages.length > 0) {
+                await Promise.all(newImages.map(img => cloudinary.uploader.destroy(img.publicId)));
+            }
+            return res.status(400).json({ message: 'Total images cannot exceed 7' });
         }
 
         // 2️⃣ Keep images that were NOT removed

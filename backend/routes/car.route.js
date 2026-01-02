@@ -16,8 +16,8 @@ router.get('/', getCars);
 router.get('/:id', getCarById);
 
 // Protected routes (Only logged in admins)
-router.post('/', protect, upload.array('images', 5), createCar);
-router.patch('/:id', protect, upload.array('images', 5), updateCar);
+router.post('/', protect, upload.array('images', 7), createCar);
+router.patch('/:id', protect, upload.array('images', 7), updateCar);
 router.delete('/:id', protect, deleteCar);
 
 export default router;
