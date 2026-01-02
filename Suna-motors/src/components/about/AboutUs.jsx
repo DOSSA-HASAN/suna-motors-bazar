@@ -324,7 +324,7 @@ function AboutUs() {
                 {
                   year: "2025",
                   title: "Market Leader",
-                  desc: "Kenya's go-to premium car marketplace with 5,000+ happy customers",
+                  desc: "Southern Nyanza's go-to premium car marketplace with 5,000+ happy customers",
                 },
               ].map((milestone, i) => (
                 <div
@@ -368,11 +368,11 @@ function AboutUs() {
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center max-w-lg mx-auto">
             <div className="text-4xl font-black flex items-center gap-4">
               <span className="material-symbols-outlined text-5xl">call</span>
-              0792 669 697
+              0728166487
             </div>
             <div className="flex gap-6">
               <a
-                href="tel:0792669697"
+                href="tel:0728166487"
                 className="px-10 py-5 bg-white text-red-600 font-bold text-xl rounded-full hover:bg-gray-100 hover:scale-105 transition-all shadow-2xl"
               >
                 Call Now
