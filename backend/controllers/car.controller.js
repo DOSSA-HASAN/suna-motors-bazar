@@ -51,33 +51,19 @@ export const updateCar = async (req, res) => {
             return res.status(404).json({ message: 'Car not found' });
         }
 
-        // 1️⃣ Handle removed images
+        // 1. Determine which images were removed
         let removedImages = [];
         if (req.body.removedImages) {
             removedImages = Array.isArray(req.body.removedImages)
                 ? req.body.removedImages
                 : [req.body.removedImages];
-
-            await Promise.all(
-                removedImages.map(publicId => cloudinary.uploader.destroy(publicId))
-            );
         }
 
-        if (remainingImages.length + newImages.length > 7) {
-            // If too many, we should ideally delete the newly uploaded images from Cloudinary 
-            // to avoid "orphaned" files since the DB update will fail.
-            if (newImages.length > 0) {
-                await Promise.all(newImages.map(img => cloudinary.uploader.destroy(img.publicId)));
-            }
-            return res.status(400).json({ message: 'Total images cannot exceed 7' });
-        }
-
-        // 2️⃣ Keep images that were NOT removed
+        // 2. CALCULATE remaining and new images FIRST
         const remainingImages = car.images.filter(
             img => !removedImages.includes(img.publicId)
         );
 
-        // 3️⃣ Add new uploaded images
         const newImages = req.files
             ? req.files.map(file => ({
                 url: file.path,
@@ -85,12 +71,29 @@ export const updateCar = async (req, res) => {
             }))
             : [];
 
+        // 3. NOW run the validation check
+        if (remainingImages.length + newImages.length > 7) {
+            // Clean up Cloudinary if validation fails
+            if (newImages.length > 0) {
+                await Promise.all(newImages.map(img => cloudinary.uploader.destroy(img.publicId)));
+            }
+            return res.status(400).json({ message: 'Total images cannot exceed 7' });
+        }
+
+        // 4. If validation passes, delete the removed images from Cloudinary
+        if (removedImages.length > 0) {
+            await Promise.all(
+                removedImages.map(publicId => cloudinary.uploader.destroy(publicId))
+            );
+        }
+
+        // 5. Update the Database
         const updatedData = {
             ...req.body,
             images: [...remainingImages, ...newImages],
         };
 
-        // 4️⃣ Cast numeric fields
+        // Cast numeric fields
         if (req.body.price) updatedData.price = Number(req.body.price);
         if (req.body.year) updatedData.year = Number(req.body.year);
         if (req.body.mileage) updatedData.mileage = Number(req.body.mileage);
