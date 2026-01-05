@@ -33,11 +33,11 @@ function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-4 group">
-            <div className="size-20 rounded-xl overflow-hidden bg-white flex items-center justify-center shadow-md border border-gray-100 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
+            <div className="size-15 rounded-xl overflow-hidden bg-white flex items-center justify-center shadow-md border border-gray-100 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
               <img
                 src={logo}
                 alt="Suna Motors Logo"
-                className="w-full h-full object-contain p-1"
+                className="w-full h-full object-contain"
               />
             </div>
 
