@@ -11,9 +11,9 @@ function Contact() {
     setIsSending(true);
 
     // Replace these with your actual IDs from the EmailJS Dashboard
-    const SERVICE_ID = "YOUR_SERVICE_ID";
-    const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
-    const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY).then(
       (result) => {
@@ -77,6 +77,12 @@ function Contact() {
                     className="block text-5xl font-black text-red-600 mb-4 hover:text-red-700 transition"
                   >
                     0728 166 487
+                  </a>
+                  <a
+                    href="mailto:sunabazaar044@gmail.com"
+                    className="font-bold text-green-500 text-3xl pt-15"
+                  >
+                    sunabazaar044@gmail.com
                   </a>
                   <div className="mt-8 flex gap-4">
                     <a
@@ -181,8 +187,7 @@ function Contact() {
                     >
                       <option>General Inquiry</option>
                       <option>Vehicle Inquiry</option>
-                      <option>Land/Property Inquiry</option>
-                      <option>Sell My Car/Land</option>
+                      <option>Sell My Car</option>
                     </select>
                   </div>
                   <div>
