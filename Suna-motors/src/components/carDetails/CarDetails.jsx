@@ -74,7 +74,7 @@ function CarDetails() {
     <div className="bg-gray-50 text-gray-900 min-h-screen">
       <main className="py-8">
         <div className="max-w-[1440px] mx-auto px-6">
-          <div className="grid lg:grid-cols-[1fr_420px] gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10">
             {/* Left: Gallery & Details */}
             <div className="space-y-6">
               <div className="space-y-4">

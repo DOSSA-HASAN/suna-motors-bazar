@@ -51,13 +51,13 @@ function Contact() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start w-full">
             {/* Left: Contact Info & Map */}
             <div className="space-y-12">
-              <div className="bg-white rounded-3xl p-10 shadow-2xl relative overflow-hidden">
+              <div className="bg-white rounded-3xl p-10 shadow-2xl relative overflow-hidden w-full">
                 <div className="absolute -right-10 -top-10 size-48 bg-red-600/10 rounded-full blur-3xl"></div>
                 <div className="relative z-10">
-                  <div className="flex items-center gap-6 mb-8">
+                  <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
                     <div className="size-20 rounded-2xl bg-red-600 flex items-center justify-center shadow-xl">
                       <span className="material-symbols-outlined text-5xl text-white">
                         call
@@ -74,13 +74,13 @@ function Contact() {
                   </div>
                   <a
                     href="tel:0728166487"
-                    className="block text-5xl font-black text-red-600 mb-4 hover:text-red-700 transition"
+                    className="block text-3xl md:text-5xl font-black text-red-600 mb-4 hover:text-red-700 transition"
                   >
                     0728 166 487
                   </a>
                   <a
                     href="mailto:sunabazaar044@gmail.com"
-                    className="font-bold text-green-500 text-3xl pt-15"
+                    className="font-bold text-green-500 text-2xl md:text-5xl pt-15"
                   >
                     sunabazaar044@gmail.com
                   </a>
