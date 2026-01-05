@@ -17,7 +17,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/google-callback" element={<GoogleCallback />} />
-        <Route path="/" element={<Navigate to="/add-listing" replace />} />
+        <Route path="/" element={<Navigate to="/listings" replace />} />
 
         {/* NOTE: To see the Sidebar on these pages, 
            we wrap the component inside the AdminLayout.
