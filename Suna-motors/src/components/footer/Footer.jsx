@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "/logo.jpg";
+import { Facebook } from "lucide-react";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -28,7 +29,7 @@ function Footer() {
   const socialLinks = [
     {
       name: "Facebook",
-      icon: "facebook",
+      icon: <Facebook />,
       href: "https://www.facebook.com/SunaPropertyBazaar",
       color: "bg-blue-600",
     },
