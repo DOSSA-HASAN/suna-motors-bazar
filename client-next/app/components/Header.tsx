@@ -4,6 +4,21 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { Poppins, Pacifico } from "next/font/google";
+
+// 1. Configure the Poppins font
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+    variable: "--font-poppins", // This creates a CSS variable
+});
+
+// 2. Configure the Pacifico font
+const pacifico = Pacifico({
+    subsets: ["latin"],
+    weight: ["400"],
+    variable: "--font-pacifico",
+});
 
 function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -32,7 +47,7 @@ function Header() {
     return (
         <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-md">
             <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-                <div className="flex items-center justify-between h-16 lg:h-20">
+                <div className="flex items-center justify-between h-25 lg:h-20">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-4 group">
                         <div className="size-15 rounded-xl overflow-hidden bg-white flex items-center justify-center shadow-md border border-gray-100 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
@@ -50,7 +65,7 @@ function Header() {
                             <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-gray-900 leading-none">
                                 Suna Motor<span className="text-blue-600"> Bazaar</span>
                             </h1>
-                            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500 mt-1">
+                            <span className={`${pacifico.className} text-[13px] uppercase tracking-[0.2em] font-bold text-gray-500 mt-1`}>
                                 Cars For Everyone
                             </span>
                         </div>

@@ -49,7 +49,7 @@ export default function AboutUs() {
     return (
         <div className="bg-gray-50 text-gray-900 min-h-screen font-sans">
             {/* Hero Section */}
-            <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+            <section className="relative h-[100vh] min-h-[600px] flex items-center justify-center overflow-hidden">
                 <Image
                     src="https://res.cloudinary.com/dw4e01qx8/f_auto,q_auto/images/nkkio05nizj5catguopm"
                     alt="Premium vehicles at Suna Motors Bazaar"
@@ -92,7 +92,7 @@ export default function AboutUs() {
                                 We partner exclusively with verified importers and perform independent inspections to make premium car ownership safe and enjoyable.
                             </p>
 
-                            <div className="flex items-center gap-6">
+                            {/* <div className="flex items-center gap-6">
                                 <div className="flex -space-x-4">
                                     {[32, 44, 45, 68].map((id) => (
                                         <img key={id} src={`https://randomuser.me/api/portraits/${id % 2 === 0 ? 'women' : 'men'}/${id}.jpg`} alt="User" className="w-14 h-14 rounded-full border-4 border-white shadow" />
@@ -103,7 +103,7 @@ export default function AboutUs() {
                                     <p className="font-black text-2xl">5,000+</p>
                                     <p className="text-gray-600 font-medium">Happy Nyanza and Migori Drivers</p>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="rounded-3xl overflow-hidden shadow-2xl relative h-[400px]">
                             <Image src="/car1.png" alt="Bazaar" fill className="object-cover hover:scale-105 transition duration-700" />
@@ -127,7 +127,7 @@ export default function AboutUs() {
             </section>
 
             {/* Team Section */}
-            <section className="py-24 bg-gray-100">
+            {/* <section className="py-24 bg-gray-100">
                 <div className="max-w-[1280px] mx-auto px-6 md:px-10 text-center">
                     <h2 className="text-4xl md:text-5xl font-black mb-16">Meet Our Expert Team</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -143,7 +143,7 @@ export default function AboutUs() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* Timeline */}
             <section className="py-24 bg-white hidden md:block">

@@ -104,7 +104,8 @@ export default function Contact() {
                             {/* Map */}
                             <section className="rounded-3xl overflow-hidden shadow-2xl h-96 relative" aria-label="Our Location Map">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.544600125433!2d34.4727183!3d-1.0532289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19d49992d4f2963d%3A0x6b488734f198126b!2sMigori!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske" // Use your actual embed URL
+                                
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.1175966409187!2d34.46512037415227!3d-1.073843098915825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19d353f8008b9c87%3A0xce432c1d2bccd63!2sSuna%20Motor%20bazaar!5e0!3m2!1sen!2ske!4v1767721716668!5m2!1sen!2ske" // Use your actual embed URL
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0 }}

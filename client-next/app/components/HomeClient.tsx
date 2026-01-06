@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import CarDetails from "../cars/[id]/page";
+import CarDetails from "../cars/page";
 import { CardSim } from "lucide-react";
 
 export default function HomeClient() {
@@ -183,7 +183,9 @@ export default function HomeClient() {
                     <h2 className="text-4xl font-black text-center mb-12">
                         Our Full Inventory
                     </h2>
-                    <CarDetails />
+                    <Suspense>
+                        <CarDetails />
+                    </Suspense>
                 </section>
 
                 {/* SELL BANNER */}

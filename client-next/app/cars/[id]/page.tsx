@@ -117,7 +117,7 @@ export default function CarDetails() {
                             </div>
 
                             <div className="bg-white rounded-3xl p-8 shadow-xl">
-                                <div className="flex justify-between items-start mb-6">
+                                <div className="flex flex-col md:flex-row justify-between items-start mb-6">
                                     <div>
                                         <h1 className="text-4xl font-black">{car.brand} {car.model} {car.year}</h1>
                                         <p className="text-gray-500 mt-2">Ref ID: {car._id.slice(-8).toUpperCase()}</p>
@@ -166,7 +166,7 @@ export default function CarDetails() {
                                         {copied ? "Link Copied!" : "Copy Page Link"}
                                     </button>
 
-                                    <a href="tel:0792669697" className="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                                    <a href="tel:0728166487" className="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition flex items-center justify-center gap-2">
                                         <span className="material-symbols-outlined">call</span> Call Dealer
                                     </a>
 

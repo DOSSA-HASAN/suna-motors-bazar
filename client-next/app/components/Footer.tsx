@@ -50,7 +50,7 @@ function Footer() {
                                 <div className="w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden shadow-2xl ring-4 ring-blue-600/20 group-hover:ring-blue-600/40 group-hover:shadow-blue-600/30 group-hover:scale-105 transition-all duration-500 relative">
                                     <Image
                                         src="/logo.jpg" // Ensure this is in your 'public' folder
-                                        alt="Suna Motors & Property Bazaar Logo"
+                                        alt="Suna Motors Bazaar Logo"
                                         fill
                                         sizes="(max-width: 768px) 192px, 256px"
                                         className="object-contain bg-white p-4"
@@ -60,7 +60,7 @@ function Footer() {
                                 {/* Company Name */}
                                 <h3 className="text-4xl md:text-5xl font-black text-white text-center md:text-left">
                                     Suna Motor
-                                    <span className="text-blue-600"> & Property Bazaar</span>
+                                    <span className="text-blue-600"> Bazaar</span>
                                 </h3>
                             </div>
                         </Link>
