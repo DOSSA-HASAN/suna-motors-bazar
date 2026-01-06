@@ -19,7 +19,7 @@ function Header() {
         { name: "Contact", href: "/contact" },
     ];
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (searchQuery.trim()) {
             // router.push is the Next.js version of navigate()
