@@ -54,6 +54,7 @@ function Footer() {
                                         fill
                                         sizes="(max-width: 768px) 192px, 256px"
                                         className="object-contain bg-white p-4"
+                                        unoptimized
                                     />
                                 </div>
 
