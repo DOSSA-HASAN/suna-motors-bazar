@@ -1,0 +1,24 @@
+[build]
+  # Tell Netlify to enter the subfolder before starting the build
+  base = "client-next"
+  
+  # The command to run inside the client-next folder
+  command = "npm run build"
+  
+  # The directory where Next.js outputs the build (use .next for SSR/Standard)
+  publish = ".next"
+
+[[plugins]]
+  # This plugin is ESSENTIAL for Next.js 15 / App Router on Netlify
+  # It handles the server-side functions and prevents 404s
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  # Ensures Netlify uses a modern Node version compatible with Next.js 15
+  NODE_VERSION = "22.14.0"
+
+[[redirects]]
+  # This ensures that even if a page is missing, it falls back to the Next.js handler
+  from = "/*"
+  status = 200
+  force = false
