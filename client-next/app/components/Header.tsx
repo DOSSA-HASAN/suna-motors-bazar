@@ -58,6 +58,7 @@ function Header() {
                                 height={60}
                                 className="w-full h-full object-contain"
                                 priority // Ensures the logo loads fast for SEO/LCP
+                                unoptimized
                             />
                         </div>
 
